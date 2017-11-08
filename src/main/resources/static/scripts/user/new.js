@@ -1,11 +1,11 @@
 $(function(){
 	$('#saveForm').validate({
 		rules: {
-            name       :{required:true},
+			nickname       :{required:true},
             email      :{required:true}
 		},messages:{
-            name :{required:"必填"},
-            createDate :{required:"必填"}
+			nickname :{required:"必填"},
+			email :{required:"必填"}
         }
  	});
 $('.saveBtn').click(function(){

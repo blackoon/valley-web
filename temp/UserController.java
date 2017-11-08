@@ -79,19 +79,7 @@ public class UserController {
     @RequestMapping(value="/edit/{id}")
     public String update(ModelMap model,@PathVariable Long id){
         User user = userService.findById(id);
-
-        List<Department> departments = departmentService.findAll();
-        List<Role> roles = roleService.findAll();
-
-        List<Long> rids = new ArrayList<Long>();
-        for(Role role : user.getRoles()){
-            rids.add(role.getId());
-        }
-
         model.addAttribute("user",user);
-        model.addAttribute("departments",departments);
-        model.addAttribute("roles", roles);
-        model.addAttribute("rids", rids);
         return "user/edit";
     }
 

@@ -38,7 +38,7 @@ var getOpt = function(){
 var currentPageData = null ;
 var pageaction = function(){
     $.get('./list?t='+new Date().getTime(),{
-        name:$("#name").val(),createdateStart:$("#createdateStart").val(),createdateEnd:$("#createdateEnd").val()
+    	nickname:$("#nickname").val(),createdateStart:$("#createdateStart").val(),createdateEnd:$("#createdateEnd").val()
     },function(data){
         currentPageData = data.content;
         $(".pagination").pagination(data.totalElements, getOpt());
@@ -52,7 +52,7 @@ var pageselectCallback = function(page_index, jq, size){
         currentPageData = null;
     }else
         $.get('./list?t='+new Date().getTime(),{
-            size:size,page:page_index,name:$("#name").val(),createdateStart:$("#createdateStart").val(),createdateEnd:$("#createdateEnd").val()
+            size:size,page:page_index,nickname:$("#nickname").val(),createdateStart:$("#createdateStart").val(),createdateEnd:$("#createdateEnd").val()
         },function(data){
             fillData(data.content);
         });
@@ -64,9 +64,9 @@ function fillData(data){
         var html = "" ;
         html += '<tr> ' +
             '<td>'+ (v.id==null?'':v.id) +'</td>' +
-            '<td>'+ (v.name==null?'':v.name) +'</td>' +
+            '<td>'+ (v.nickname==null?'':v.nickname) +'</td>' +
             '<td>'+ (v.email==null?'':v.email) +'</td>' +
-            '<td>'+ (v.createdate==null?'': getSmpFormatDateByLong(v.createdate,true)) +'</td>';
+            '<td>'+ (v.createTime==null?'': getSmpFormatDateByLong(v.createTime,true)) +'</td>';
         html += '<td><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="showDetail(\''+ v.id+'\')">查看</a><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="edit(\''+ v.id+'\')">修改</a><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="del(\''+ v.id+'\')">删除</a></td>';
         html +='</tr>' ;
 

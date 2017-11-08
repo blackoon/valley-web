@@ -6,10 +6,21 @@
     <table class="addNewInfList">
         <tr>
             <th>名称</th>
-            <td width="240"><input class="inp-list w-200 clear-mr f-left" type="text" th:value="${role.name}" id="name" name="name" maxlength="16" /></td>
+            <td><input class="inp-list w-200 clear-mr f-left" type="text" th:value="${role.name}" id="name" name="name" maxlength="16" /></td>
+            <th>资源</th>
+            <td width="240">
+                <div >
+                    <select name="permissions" id="permissions" multiple="multiple">
+                        <option th:each="permission:${permissions}" th:value="${permission.id}"
+                                th:text="${#strings.length(permission.name)>20?#strings.substring(permission.name,0,20)+'...':permission.name}"
+                                th:selected="${#lists.contains(pids, permission.id)}"
+                                ></option>
+                    </select>
+                </div>
+            </td>
             <th>日期</th>
             <td>
-                <input  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="inp-list w-200 clear-mr f-left" th:value="${role.createdate} ? ${#dates.format(role.createdate,'yyyy-MM-dd HH:mm:ss')} :''" id="createdate" name="createdate"/>
+                <input  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="inp-list w-200 clear-mr f-left" th:value="${role.createTime} ? ${#dates.format(role.createTime,'yyyy-MM-dd HH:mm:ss')} :''" id="createTime" name="createTime"/>
             </td>
         </tr>
     </table>

@@ -24,8 +24,9 @@
             <a href="#"><img th:src="@{/images/logo.png}"/></a>
         </div>
         <div class="new-nav">
-            <h3>管理后台</h3>
+<!--             <h3>管理后台</h3> -->
         </div>
+        <div class="f-right" style="color:green;cursor: pointer;"> <a  id="logout"  >退出登录</a></div>
     </div>
 </div>
 <div class="locationLine" layout:fragment="prompt">
@@ -46,4 +47,9 @@
 <div class="footBox" th:replace="fragments/footer :: footer"></div>
 
 </body>
+<script type="text/javascript">
+    $("#logout").click(function(){
+        location.href="/logout";
+    });
+</script>
 </html>

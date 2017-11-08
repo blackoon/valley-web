@@ -3,13 +3,23 @@
     <table class="addNewInfList">
         <tr>
             <th>名称</th>
-            <td width="240">
+            <td>
                 <input class="inp-list w-200 clear-mr f-left" type="text" name="name" id="name" maxlength="32" />
                 <span class="tipStar f-left">*</span>
             </td>
+            <th>资源</th>
+             <td width="240">
+                <div >
+                    <select name="permissions" id="permissions" multiple="multiple">
+                        <option th:each="permission:${permissions}" th:value="${permission.id}"
+                                th:text="${#strings.length(permission.name)>20?#strings.substring(permission.name,0,20)+'...':permission.name}"
+                                ></option>
+                    </select>
+                </div>
+            </td>
             <th>日期</th>
             <td>
-                <input  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="inp-list w-200 clear-mr f-left" id="createdate" name="createdate"/>
+                <input  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="inp-list w-200 clear-mr f-left" id="createTime" name="createTime"/>
             </td>
         </tr>
     </table>

@@ -1,9 +1,24 @@
 package com.hylanda.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.math.BigInteger;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 /**
@@ -17,15 +32,18 @@ public class UUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+//	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name="create_time")
 	private Date createTime;
 
 	private String email;
 
-	@Temporal(TemporalType.TIMESTAMP)
+//	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name="last_login_time")
 	private Date lastLoginTime;
 
@@ -33,16 +51,29 @@ public class UUser implements Serializable {
 
 	private String pswd;
 
-	private BigInteger status;
+	private Integer status;
+	private String sex;
+	@ManyToOne
+    @JoinColumn(name = "did")
+    @JsonBackReference
+    private Department department;
+	
+
+    @ManyToMany
+    @JoinTable(name = "u_user_role",
+            joinColumns = {@JoinColumn(name = "uid")},
+            inverseJoinColumns = {@JoinColumn(name = "rid")})
+    //@JsonIgnore
+    private List<URole> roles;
 
 	public UUser() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -86,12 +117,36 @@ public class UUser implements Serializable {
 		this.pswd = pswd;
 	}
 
-	public BigInteger getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(BigInteger status) {
+	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public List<URole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<URole> roles) {
+		this.roles = roles;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 }

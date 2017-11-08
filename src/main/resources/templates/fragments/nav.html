@@ -10,8 +10,35 @@
             <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/deparment/index}">部门管理</a></li>
             <li><a th:classappend="${page == 'role/index' ? 'currentPageNav' : ''}" th:href="@{/role/index}">角色管理</a></li>
             <li><a th:classappend="${page == 'user/index' ? 'currentPageNav' : ''}" th:href="@{/user/index}">用户管理</a></li>
+            <li><a th:classappend="${page == 'permission/index' ? 'currentPageNav' : ''}" th:href="@{/permission/index}">资源管理</a></li>
         </ul>
-
+		<h6 ><span class="f-right"></span>用户接口管理</h6>
+		<ul >
+            <li><a th:classappend="${page == 'account/index' ? 'currentPageNav' : ''}" th:href="@{/account/index}">接口授权管理</a></li>
+            <li><a th:classappend="${page == 'swagger-ui.html' ? 'currentPageNav' : ''}" th:href="@{/swagger-ui.html}" target="_blank">接口规范文档管理</a></li>
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/deparment/index}">接口应用功能管理</a></li>
+            <li><a th:classappend="${page == 'role/index' ? 'currentPageNav' : ''}" th:href="@{/role/index}">接口日志管理</a></li>
+        </ul>
+        <h6 ><span class="f-right"></span>运营业务管理</h6>
+		<ul >
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/deparment/index}">标准媒体名称管理</a></li>
+        </ul>
+        <h6 ><span class="f-right"></span>在线用户管理</h6>
+        <ul >
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/deparment/index}">在线用户管理</a></li>
+        </ul>
+        <h6 ><span class="f-right"></span>服务性能管理</h6>
+        <ul>
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/druid/index.html}" target="_blank">druid管理</a></li>
+        </ul>
+        <h6 ><span class="f-right"></span>代码自动生成管理</h6>
+        <ul>
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/druid/index.html}" target="_blank">代码自动生成</a></li>
+        </ul>
+       <h6 ><span class="f-right"></span>valley1.0框架产品</h6>
+        <ul>
+            <li><a th:classappend="${page == 'deparment/index' ? 'currentPageNav' : ''}" th:href="@{/druid/index.html}" target="_blank">框架产品介绍</a></li>
+        </ul>
     </div>
 </div>
 </body>

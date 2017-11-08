@@ -15,9 +15,10 @@ import com.alibaba.druid.support.http.WebStatFilter;
  * @version created at：2017年10月23日 上午11:06:37 
  * note
  */
+@SuppressWarnings("deprecation")
 @Configuration
 public class DruidConfiguration {
-	 @Bean
+		@Bean
 	    public ServletRegistrationBean statViewServle(){
 	        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
 	        //白名单：
@@ -32,7 +33,7 @@ public class DruidConfiguration {
 	        return servletRegistrationBean;
 	    }
 
-	    @Bean
+		@Bean
 	    public FilterRegistrationBean statFilter(){
 	        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
 	        //添加过滤规则.

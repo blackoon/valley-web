@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
+
 import com.google.common.io.Files;
 
 /** 
@@ -18,9 +19,73 @@ import com.google.common.io.Files;
  */
 public class DeveloperTool {
 	public static void main(String[] args) {
-		readTemplates("UUser");
+		//后台代码自动生成
+//		readTemplates("Account");
+		//前端代码自动生成
+		readhtmlTemplates("account","接口账号");
+		readjsTemplates("account");
 	}
 	
+	public static void readjsTemplates(String entityName){
+		File[] files = new File("temp/js").listFiles();
+		for(File file:files){
+			try {
+				String text = getText(Files.newReader(file, Charset.forName("utf-8")));
+				String name=entityName.toLowerCase();
+				File modelDir = new File("src/main/resources/static/scripts/"+name);
+				writejs(text, name, file.getName(),modelDir);
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+	
+	public static void readhtmlTemplates(String entityName,String functionName){
+		File[] files = new File("temp/html").listFiles();
+		for(File file:files){
+			try {
+				String text = getText(Files.newReader(file, Charset.forName("utf-8")));
+				String name=entityName.toLowerCase();
+				File modelDir = new File("src/main/resources/templates/"+name);
+				writeHtml(text, name,functionName, file.getName(),modelDir);
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+	
+	
+	private static BufferedWriter writejs(String text, String name,
+			String newFileName, File modelDir) throws IOException {
+		BufferedWriter writer;
+		// 创建路径
+		if (!modelDir.isDirectory()) {
+			modelDir.mkdirs();
+		}
+		writer= Files.newWriter(new File(modelDir, newFileName),Charset.forName("utf-8"));
+		text=text.replaceAll("department", name);
+		writer.write(text);
+		writer.flush();
+		writer.close();
+		return writer;
+	}
+	
+	private static BufferedWriter writeHtml(String text, String name,String functionName,
+			String newFileName, File modelDir) throws IOException {
+		BufferedWriter writer;
+		// 创建路径
+		if (!modelDir.isDirectory()) {
+			modelDir.mkdirs();
+		}
+		writer= Files.newWriter(new File(modelDir, newFileName),Charset.forName("utf-8"));
+		text=text.replaceAll("department", name);
+		text=text.replace("部门", functionName);
+		writer.write(text);
+		writer.flush();
+		writer.close();
+		return writer;
+	}
+
 	public static void readTemplates(String entityName){
 		File[] files = new File("temp").listFiles();
 		for (File file : files) {

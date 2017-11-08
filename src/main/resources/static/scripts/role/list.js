@@ -64,7 +64,7 @@ function fillData(data){
         html += '<tr> ' +
             '<td>'+ (v.id==null?'':v.id) +'</td>' +
             '<td>'+ (v.name==null?'':v.name) +'</td>' +
-            '<td>'+ (v.createdate==null?'': getSmpFormatDateByLong(v.createdate,true)) +'</td>';
+            '<td>'+ (v.createTime==null?'': getSmpFormatDateByLong(v.createTime,true)) +'</td>';
         html += '<td><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="showDetail(\''+ v.id+'\')">查看</a><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="edit(\''+ v.id+'\')">修改</a><a class="c-50a73f mlr-6" href="javascript:void(0)" onclick="del(\''+ v.id+'\')">删除</a></td>';
         html +='</tr>' ;
 

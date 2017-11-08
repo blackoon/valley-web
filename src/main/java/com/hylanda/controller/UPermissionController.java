@@ -1,7 +1,5 @@
 package com.hylanda.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,36 +12,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hylanda.entity.Department;
-import com.hylanda.entity.Role;
 import com.hylanda.entity.UPermission;
 import com.hylanda.model.UPermissionQo;
-import com.hylanda.service.DepartmentService;
-import com.hylanda.service.RoleService;
 import com.hylanda.service.UPermissionService;
+import com.hylanda.service.URoleService;
 
 @Controller
-@RequestMapping("/uPermission")
+@RequestMapping("/permission")
 public class UPermissionController {
     private static Logger logger = LoggerFactory.getLogger(UPermissionController.class);
 
     @Autowired
     private UPermissionService uPermissionService;
     @Autowired
-    private DepartmentService departmentService;
-    @Autowired
-    private RoleService roleService;
+    private URoleService uRoleService;
 
     @RequestMapping("/index")
     public String index() throws Exception{
-        return "uPermission/index";
+        return "permission/index";
     }
 
     @RequestMapping(value="/{id}")
     public String show(ModelMap model,@PathVariable Long id) {
         UPermission uPermission = uPermissionService.findById(id);
-        model.addAttribute("uPermission",uPermission);
-        return "uPermission/show";
+        model.addAttribute("permission",uPermission);
+        return "permission/show";
     }
 
     @RequestMapping(value = "/list")
@@ -59,13 +52,10 @@ public class UPermissionController {
 
     @RequestMapping("/new")
     public String create(ModelMap model,UPermission uPermission){
-        List<Department> departments = departmentService.findAll();
-        List<Role> roles = roleService.findAll();
-
-        model.addAttribute("departments",departments);
-        model.addAttribute("roles", roles);
-        model.addAttribute("uPermission", uPermission);
-        return "uPermission/new";
+//        List<URole> roles = uRoleService.findAll();
+//        model.addAttribute("roles",roles);
+        model.addAttribute("permission", uPermission);
+        return "permission/new";
     }
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
@@ -79,20 +69,8 @@ public class UPermissionController {
     @RequestMapping(value="/edit/{id}")
     public String update(ModelMap model,@PathVariable Long id){
         UPermission uPermission = uPermissionService.findById(id);
-
-        List<Department> departments = departmentService.findAll();
-        List<Role> roles = roleService.findAll();
-
-        List<Long> rids = new ArrayList<Long>();
-        for(Role role : uPermission.getRoles()){
-            rids.add(role.getId());
-        }
-
-        model.addAttribute("uPermission",uPermission);
-        model.addAttribute("departments",departments);
-        model.addAttribute("roles", roles);
-        model.addAttribute("rids", rids);
-        return "uPermission/edit";
+        model.addAttribute("permission",uPermission);
+        return "permission/edit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/update")

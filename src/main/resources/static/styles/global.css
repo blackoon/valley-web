@@ -50,7 +50,7 @@ em{font-style:normal}
 .companyCodeBox p img{width:102px;height:102px;}
 .companyCodeBox span{display:inline-block;width:100%;text-align:center;padding:6px 0 0;font-size:16px;color:#666;white-space:nowrap;word-break:keep-all;text-overflow:ellipsis;overflow:hidden;}
 .columnLeftMenu{overflow:hidden;padding-bottom:48px;}
-.columnLeftMenu h6{height:33px;text-indent:12px;line-height:33px;padding:0 16px;font-size:14px;color:#666;border-top:1px solid #e1e1e1;background:url(/images/global/leftMenuBk.png) repeat-x; cursor:pointer;}
+.columnLeftMenu h6{height:33px;text-indent:12px;line-height:33px;padding:0 16px;font-size:14px;color:#666;border-top:1px solid #e1e1e1;background: repeat-x; cursor:pointer;}
 .columnLeftMenu h6 span{display:inline-block;width:16px;height:16px;background:url(/images/global/togUpDownCircle.png) 0 0 no-repeat;margin:9px 0 0 0;}
 .columnLeftMenu h6.isOpen span{background-position:left bottom;}
 .columnLeftMenu ul{padding:0 16px 10px 16px;height:auto;zoom:1.0;overflow-y:auto;border-top:1px solid #e1e1e1;}

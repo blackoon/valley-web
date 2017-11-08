@@ -1,11 +1,15 @@
 package com.hylanda.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.hylanda.entity.URole;
 import com.hylanda.entity.UUser;
 import com.hylanda.model.UUserQo;
 import com.hylanda.redis.UUserRedis;
@@ -52,6 +56,28 @@ public class UUserService {
 
     public Page<UUser> findPage(UUserQo uUserQo){
        Pageable pageable = new PageRequest(uUserQo.getPage(), uUserQo.getSize(), new Sort(Sort.Direction.ASC, "id"));
+//     PredicateBuilder pb  = new PredicateBuilder();
+
+//     if (!StringUtils.isEmpty(userQo.getName())) {
+//         pb.add("name","%" + userQo.getName() + "%", LinkEnum.LIKE);
+//     }
+//     if (!StringUtils.isEmpty(userQo.getCreatedateStart())) {
+//         pb.add("createdate",userQo.getCreatedateStart(), LinkEnum.GE);
+//     }
+//     if (!StringUtils.isEmpty(userQo.getCreatedateEnd())) {
+//         pb.add("createdate",userQo.getCreatedateEnd(), LinkEnum.LE);
+//     }
        return uUserRepository.findAll(pageable);
     }
+    public UUser findByUsername(String username, char[] password) {
+    	UUser user=uUserRepository.findByNickname(username);
+    	if(user!=null&&user.getPswd().equals(String.valueOf(password)))
+    		return user;
+		return null;
+	}
+
+	public List<URole> findByUserId(Long userId) {
+		UUser user=uUserRepository.findOne(userId);
+		return user.getRoles();
+	}
 }

@@ -14,36 +14,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hylanda.entity.Department;
-import com.hylanda.entity.Role;
+import com.hylanda.entity.UPermission;
 import com.hylanda.entity.URole;
 import com.hylanda.model.URoleQo;
-import com.hylanda.service.DepartmentService;
-import com.hylanda.service.RoleService;
+import com.hylanda.service.UPermissionService;
 import com.hylanda.service.URoleService;
 
 @Controller
-@RequestMapping("/uRole")
+@RequestMapping("/role")
 public class URoleController {
     private static Logger logger = LoggerFactory.getLogger(URoleController.class);
 
     @Autowired
     private URoleService uRoleService;
     @Autowired
-    private DepartmentService departmentService;
-    @Autowired
-    private RoleService roleService;
+    private UPermissionService uPermissionService;
 
     @RequestMapping("/index")
     public String index() throws Exception{
-        return "uRole/index";
+        return "role/index";
     }
 
     @RequestMapping(value="/{id}")
     public String show(ModelMap model,@PathVariable Long id) {
         URole uRole = uRoleService.findById(id);
-        model.addAttribute("uRole",uRole);
-        return "uRole/show";
+        model.addAttribute("role",uRole);
+        return "role/show";
     }
 
     @RequestMapping(value = "/list")
@@ -59,13 +55,10 @@ public class URoleController {
 
     @RequestMapping("/new")
     public String create(ModelMap model,URole uRole){
-        List<Department> departments = departmentService.findAll();
-        List<Role> roles = roleService.findAll();
-
-        model.addAttribute("departments",departments);
-        model.addAttribute("roles", roles);
-        model.addAttribute("uRole", uRole);
-        return "uRole/new";
+        List<UPermission> permissions = uPermissionService.findAll();
+        model.addAttribute("permissions",permissions);
+        model.addAttribute("role", uRole);
+        return "role/new";
     }
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
@@ -79,20 +72,17 @@ public class URoleController {
     @RequestMapping(value="/edit/{id}")
     public String update(ModelMap model,@PathVariable Long id){
         URole uRole = uRoleService.findById(id);
-
-        List<Department> departments = departmentService.findAll();
-        List<Role> roles = roleService.findAll();
-
-        List<Long> rids = new ArrayList<Long>();
-        for(Role role : uRole.getRoles()){
-            rids.add(role.getId());
+        model.addAttribute("role",uRole);
+        List<UPermission> permissions = uPermissionService.findAll();
+        List<Long> pids = new ArrayList<Long>();
+        if(uRole.getPermissions()!=null){
+        	 for(UPermission permission : uRole.getPermissions()){
+             	pids.add(permission.getId());
+             }
         }
-
-        model.addAttribute("uRole",uRole);
-        model.addAttribute("departments",departments);
-        model.addAttribute("roles", roles);
-        model.addAttribute("rids", rids);
-        return "uRole/edit";
+        model.addAttribute("permissions",permissions);
+        model.addAttribute("pids",pids);
+        return "role/edit";
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/update")

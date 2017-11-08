@@ -1,7 +1,7 @@
 $(function(){
 	$('#saveForm').validate({
 		rules: {
-			name       :{required:true},
+			nickname       :{required:true},
 			email      :{required:true}
 		},submitHandler:function(){
             return false;

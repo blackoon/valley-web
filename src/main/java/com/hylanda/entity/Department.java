@@ -3,6 +3,7 @@ package com.hylanda.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.util.Date;
 
 @Entity
@@ -17,7 +18,8 @@ public class Department implements java.io.Serializable{
     private Long id;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createdate;
+    @Column(name="create_time")
+    private Date createTime;
 
     public Department() {
     }
@@ -38,11 +40,12 @@ public class Department implements java.io.Serializable{
         this.name = name;
     }
 
-    public Date getCreatedate() {
-        return createdate;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 }

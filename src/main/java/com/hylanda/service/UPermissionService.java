@@ -1,11 +1,14 @@
 package com.hylanda.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import com.hylanda.entity.UPermission;
 import com.hylanda.model.UPermissionQo;
 import com.hylanda.redis.UPermissionRedis;
@@ -54,4 +57,15 @@ public class UPermissionService {
        Pageable pageable = new PageRequest(uPermissionQo.getPage(), uPermissionQo.getSize(), new Sort(Sort.Direction.ASC, "id"));
        return uPermissionRepository.findAll(pageable);
     }
+
+	public List<UPermission> findAll() {
+		List<UPermission> permissions = uPermissionRedis.getList("mysql:findAll:uPermission");
+        if(permissions == null) {
+        	permissions = uPermissionRepository.findAll();
+            if(permissions != null)
+            	uPermissionRedis.add("mysql:findAll:uPermission", 5L, permissions);
+        }
+        return permissions;
+	}
+
 }
