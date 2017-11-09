@@ -7,7 +7,8 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 //import org.apache.shiro.mgt.SecurityManager;
-import com.hylanda.service.MyShiroRealm;
+
+import com.hylanda.service.shiro.MyShiroRealm;
 
 /** 
  * @author zhangy

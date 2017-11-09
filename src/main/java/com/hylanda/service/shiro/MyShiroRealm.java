@@ -1,9 +1,12 @@
-package com.hylanda.service;
+package com.hylanda.service.shiro;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
@@ -18,10 +21,14 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.ValueOperations;
+
 import com.hylanda.entity.UPermission;
 import com.hylanda.entity.URole;
 import com.hylanda.entity.UUser;
+import com.hylanda.service.URoleService;
+import com.hylanda.service.UUserService;
+import com.hylanda.util.MyDES;
 
 /** 
  * @author zhangy
@@ -71,8 +78,25 @@ public class MyShiroRealm extends AuthorizingRealm{
 			AuthenticationToken authcToken) throws AuthenticationException {
 		System.out.println("身份认证方法：MyShiroRealm.doGetAuthenticationInfo()");
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+		String name = token.getUsername();
+		String password = String.valueOf(token.getPassword());
+		
+		//访问一次，计数一次
+		ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+		opsForValue.increment(SHIRO_LOGIN_COUNT+name, 1);
+		//计数大于5时，设置用户被锁定一小时
+		if(Integer.parseInt(opsForValue.get(SHIRO_LOGIN_COUNT+name))>=5){
+			opsForValue.set(SHIRO_IS_LOCK+name, "LOCK");
+			stringRedisTemplate.expire(SHIRO_IS_LOCK+name, 1, TimeUnit.HOURS);
+		}
+		if ("LOCK".equals(opsForValue.get(SHIRO_IS_LOCK+name))){
+			throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！");
+		}
+		//密码进行加密处理  明文为  password+name
+		String paw = password+name;
+		String pawDES = MyDES.encryptBasedDes(paw);
 	    // 从数据库获取对应用户名密码的用户
-	    UUser user = sysUserService.findByUsername(token.getUsername(),token.getPassword());
+	    UUser user = sysUserService.findByUsername(name,pawDES);
 	    if (null == user) {
 	        throw new AccountException("帐号或密码不正确！");
 	    }else if(user.getStatus()==0){
@@ -84,7 +108,10 @@ public class MyShiroRealm extends AuthorizingRealm{
 	        //更新登录时间 last login time
 	        user.setLastLoginTime(new Date());
 	        sysUserService.update(user);
+	        //清空登录计数
+	        opsForValue.set(SHIRO_LOGIN_COUNT+name, "0");
 	    }
+	    Logger.getLogger(getClass()).info("身份认证成功，登录用户："+name);
 	    return new SimpleAuthenticationInfo(user, user.getPswd(), getName());
 	}
 	/**

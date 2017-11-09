@@ -33,7 +33,7 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful APIs")
+                .title("RESTful APIs")
                 .description("valley1.0框架产品")
                 .termsOfServiceUrl("http://hylanda.com/")
                 .version("1.0")

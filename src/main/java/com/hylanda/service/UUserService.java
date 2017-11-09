@@ -14,6 +14,7 @@ import com.hylanda.entity.UUser;
 import com.hylanda.model.UUserQo;
 import com.hylanda.redis.UUserRedis;
 import com.hylanda.repository.UUserRepository;
+import com.hylanda.util.MyDES;
 
 
 @Service
@@ -35,6 +36,7 @@ public class UUserService {
     }
 
     public UUser create(UUser uUser) {
+    	uUser.setPswd(MyDES.encryptBasedDes(uUser.getPswd()+uUser.getNickname()));
         UUser newUUser = uUserRepository.save(uUser);
         if(newUUser != null)
             uUserRedis.add(keyHead + newUUser.getId(), 30L, newUUser);
@@ -69,9 +71,9 @@ public class UUserService {
 //     }
        return uUserRepository.findAll(pageable);
     }
-    public UUser findByUsername(String username, char[] password) {
+    public UUser findByUsername(String username, String password) {
     	UUser user=uUserRepository.findByNickname(username);
-    	if(user!=null&&user.getPswd().equals(String.valueOf(password)))
+    	if(user!=null&&user.getPswd().equals(password))
     		return user;
 		return null;
 	}

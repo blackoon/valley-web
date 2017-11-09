@@ -1,4 +1,4 @@
-package com.hylanda.service;
+package com.hylanda.service.shiro;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
